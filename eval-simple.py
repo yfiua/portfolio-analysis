@@ -55,14 +55,26 @@ def main(args):
     print('Annualized Sharpe ratio: {:.2f}'.format(sharpe_ratio))
     print('Max drawdown: {:.2f}%'.format(max_drawdown * 100))
 
-    # plot portfolio value
-    df_portfolio_value.plot()
+    # plot
+    plt.figure(figsize=(10, 6))
+
+    plt.plot(df_portfolio_value.index, df_portfolio_value)
+
+    plt.title('Portfolio value')
+    plt.xlabel('Date')
+    plt.ylabel('Value')
+
+    plt.xlim(start_date, end_date)
+
+    # Y-axis tick display as percentage
+    plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: '{:.0f}%'.format(x * 100)))
+
+    plt.grid(True)
+    plt.tight_layout()
 
     # save plot
-    plt.savefig('portfolio_value.pdf')
-
-    # plot candlestick chart for the portfolio
-
+    plt.savefig(f'portfolio_value_{args.portfolio.split(".")[0]}.png', dpi=300)
+    plt.savefig(f'portfolio_value_{args.portfolio.split(".")[0]}.pdf')
 
 if __name__ == '__main__':
     # parse arguments
